@@ -1,6 +1,14 @@
+import pandas as pd
 import scipy.stats
 import streamlit as st
 import time
+
+# estas son variables de estado que se conservan cuando Streamlin vuelve a ejecutar este script
+if 'experiment_no' not in st.session_state:
+    st.session_state['experiment_no'] = 0
+
+if 'df_experiment_results' not in st.session_state:
+    st.session_state['df_experiment_results'] = pd.DataFrame(columns=['no', 'iteraciones', 'media'])
 
 st.header('Lanzar una moneda')
 
@@ -13,19 +21,13 @@ def toss_coin(n):
     mean = None
     outcome_no = 0
     outcome_1_count = 0
-    means = []
 
     for r in trial_outcomes:
-        outcome_no += 1
-
+        outcome_no +=1
         if r == 1:
             outcome_1_count += 1
-
         mean = outcome_1_count / outcome_no
-        means.append(mean)
-
-        chart.line_chart(means)
-
+        chart.add_rows([mean])
         time.sleep(0.05)
 
     return mean
