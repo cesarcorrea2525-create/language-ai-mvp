@@ -21,13 +21,19 @@ def toss_coin(n):
     mean = None
     outcome_no = 0
     outcome_1_count = 0
+    means = []
 
     for r in trial_outcomes:
-        outcome_no +=1
+        outcome_no += 1
+
         if r == 1:
             outcome_1_count += 1
+
         mean = outcome_1_count / outcome_no
-        chart.add_rows([mean])
+        means.append(mean)
+
+        chart.line_chart(means)
+
         time.sleep(0.05)
 
     return mean
